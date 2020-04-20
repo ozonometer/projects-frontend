@@ -1,4 +1,10 @@
-<label>
-  <input type="text" [(ngModel)]="name">
-</label>
-<p>{{name}}</p>
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-danger" (click)="sendPost()">Post Request</button>
+<button type="button" class="btn btn-danger" (click)="getProjects()">Get Request</button>
