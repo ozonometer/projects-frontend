@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
-import { environment} from '../environments/environment';
+import {HttpService} from './service/http.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  providers: [HttpService]
 })
 export class AppComponent {
 
-  constructor(private http: HttpClient) {}
+  constructor(private httpService: HttpService) {}
 
   postData = {
     created: '2020-04-19',
@@ -21,15 +21,17 @@ export class AppComponent {
   projects = {};
 
   sendPost() {
-    this.http.post( environment.url + '/project', this.postData).subscribe(responseData => {
+    this.httpService.postRequest('/project', this.postData).subscribe(responseData => {
       console.log(responseData);
     });
   }
 
   getProjects() {
-    this.http.get(environment.url + '/projects').subscribe(responseData => {
-      this.projects = responseData;
-      console.log(responseData);
+    this.httpService.getRequest('/projects').subscribe(response => {
+      this.projects = response;
+      console.log(response);
+    }, error => {
+      console.log(error);
     });
   }
 
