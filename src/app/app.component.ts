@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {HttpService} from './service/http.service';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,9 @@ import {HttpService} from './service/http.service';
 export class AppComponent {
 
   constructor(private httpService: HttpService) {}
+
+  fileToUpload: File = null;
+  imageArray = [];
 
   postData = {
     created: '2020-04-19',
@@ -35,4 +39,19 @@ export class AppComponent {
     });
   }
 
+  // store selected image in variable to be later uploaded to cloud storage
+  storeFile(event) {
+    console.log(event);
+    this.fileToUpload = event.target.files[0];
+  }
+
+  // uploaded file
+  uploadFile() {
+    this.httpService.uploadMultipartFile('/upload/image', this.fileToUpload).subscribe(response => {
+      this.imageArray.push(response);
+      console.log(response);
+    }, error => {
+      console.log(error);
+    });
+  }
 }
