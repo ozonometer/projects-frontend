@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="p-3 row">
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Project Name</span>
+      </div>
+      <input type="text" maxlength="20" [(ngModel)]="newProject.name" class="form-control" placeholder="Name" aria-label="Project Name" aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Short description</span>
+      </div>
+      <textarea maxlength="500" [(ngModel)]="newProject.shortInfo" class="form-control" aria-label="Short description"></textarea>
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Detailed description</span>
+      </div>
+      <textarea class="form-control" [(ngModel)]="newProject.text" aria-label="Short description"></textarea>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let image of newProject.images;">
+        {{image.imageName}} <input type="text" [(ngModel)]="image.imageDescription" maxlength="100" placeholder="Name" aria-label="Project Name">
+      </li>
+    </ul>
+
+  </div>
+  <div class="p-2">
+    <button type="button" class="p-2 btn btn-dark" (click)="fileSelect.click()">Add Image</button>
+    <input
+      style="display: none"
+      type="file"
+      (change)="addImage($event)"
+      #fileSelect>
+  </div>
+
+  <div class="p-3 row">
+
+    <div class="p-2 col-5"></div>
+    <div class="p-2 col-1">
+      <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+    </div>
+    <div class="p-2 col-1">
+      <button type="button" class="btn btn-primary" [disabled]="disableSave" (click)="save()">Save</button>
+    </div>
+    <div class="p-2 col-5"></div>
+
+  </div>
+
+</div>

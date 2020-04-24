@@ -6,23 +6,5 @@
     </div>
   </div>
 </div>
-<button type="button" class="btn btn-danger" (click)="sendPost()">Post Request</button>
-<button type="button" class="btn btn-danger" (click)="getProjects()">Get Request</button>
-<br>
-<br>
-<div>
-  <button type="button" class="btn-primary" (click)="uploadFile()">Upload Image</button>
-  <!--Select Image button is a proxy to hidden #fileSelect button-->
-  <button type="button" class="btn-dark" (click)="fileSelect.click()">Select Image</button>
-  <input
-    style="display: none"
-    type="file"
-    (change)="storeFile($event)"
-    #fileSelect>
-</div>
-<br>
-<br>
-<div *ngIf="imageArray[0]">
-  <img src="{{imageArray[0].url}}" class="img-fluid" alt="Responsive image">
-</div>
+
 

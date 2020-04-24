@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {HttpService} from './service/http.service';
-import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -45,13 +44,4 @@ export class AppComponent {
     this.fileToUpload = event.target.files[0];
   }
 
-  // uploaded file
-  uploadFile() {
-    this.httpService.uploadMultipartFile('/upload/image', this.fileToUpload).subscribe(response => {
-      this.imageArray.push(response);
-      console.log(response);
-    }, error => {
-      console.log(error);
-    });
-  }
 }
