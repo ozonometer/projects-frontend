@@ -4,6 +4,8 @@ import { HttpService } from '../service/http.service';
 import { ImageModel } from '../class/ImageModel';
 import { DatePipe } from '@angular/common';
 import {ProjectDescription} from '../class/ProjectDescription';
+import {ToastService} from '../service/toast.service';
+import {HttpResponseObject} from '../class/HttpResponseObject';
 
 
 @Component({
@@ -28,7 +30,7 @@ export class AddComponent implements OnInit {
     updated: null
   };
 
-  constructor(private router: Router, private httpService: HttpService, private datePipe: DatePipe) {
+  constructor(private router: Router, private httpService: HttpService, private datePipe: DatePipe, private toastService: ToastService) {
     this.todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
@@ -58,7 +60,7 @@ export class AddComponent implements OnInit {
     this.httpService.postNewProject(this.newProject).subscribe(response => {
       console.log(response);
     }, error => {
-      console.log(error);
+      this.emmitToast(error);
     });
   }
 
@@ -75,4 +77,13 @@ export class AddComponent implements OnInit {
   async uploadFile(file: File){
     return await this.httpService.uploadMultipartFile('/upload/image', file);
   }
+
+  /**
+   * If API returns error then emit response to toastMessage service
+   */
+  emmitToast(response: HttpResponseObject) {
+    console.log(response);
+    this.toastService.toastMessage.emit(response);
+  }
+
 }

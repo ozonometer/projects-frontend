@@ -27,7 +27,9 @@
   <div class="row">
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let image of newProject.images;">
-        {{image.imageName}} <input type="text" [(ngModel)]="image.imageDescription" maxlength="100" placeholder="Name" aria-label="Project Name">
+        <img src="{{image.url}}" class="img-thumbnail">
+        <div>{{image.imageName}}</div>
+        <input type="text" [(ngModel)]="image.imageDescription" maxlength="100" placeholder="Name" aria-label="Project Name">
       </li>
     </ul>
 

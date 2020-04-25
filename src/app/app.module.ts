@@ -10,6 +10,8 @@ import { ProjectComponent } from './project/project.component';
 import { AboutComponent } from './about/about.component';
 import { HttpClientModule} from '@angular/common/http';
 import { AddComponent } from './add/add.component';
+import { ToastComponent } from './toast/toast.component';
+import {ToastService} from './service/toast.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { AddComponent } from './add/add.component';
     NavbarComponent,
     ProjectComponent,
     AboutComponent,
-    AddComponent
+    AddComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,7 @@ import { AddComponent } from './add/add.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ToastService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {ImageResponse} from '../class/ImageResponse';
 
-@Injectable()
+@Injectable( {providedIn: 'root'})
 export class HttpService {
 
   constructor(private http: HttpClient) {}

@@ -38,10 +38,4 @@ export class AppComponent {
     });
   }
 
-  // store selected image in variable to be later uploaded to cloud storage
-  storeFile(event) {
-    console.log(event);
-    this.fileToUpload = event.target.files[0];
-  }
-
 }
