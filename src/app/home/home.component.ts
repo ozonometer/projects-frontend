@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-// import {logger} from 'codelyzer/util/logger';
+import {ToastService} from '../service/toast.service';
 
 @Component({selector: 'app-home',
   templateUrl: './home.component.html'
   })
   export class HomeComponent {
     disableButton = true;
-    constructor() {
+    constructor(private toastService: ToastService) {
+      this.toastService.clearMessages.emit(true);
       setTimeout(() => {
         this.disableButton = false;
       }, 2000);

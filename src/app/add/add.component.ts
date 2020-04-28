@@ -23,6 +23,7 @@ export class AddComponent implements OnInit {
 
   constructor(private router: Router, private httpService: HttpService, private datePipe: DatePipe, private toastService: ToastService) {
     this.todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.toastService.clearMessages.emit(true);
   }
 
   ngOnInit(): void {
@@ -40,7 +41,6 @@ export class AddComponent implements OnInit {
       let imageModel = new ImageModel(urlString,  null, event.target.files[0].name, this.todayDate);
       this.newProject.images.push(imageModel);
     }, error => {
-      console.log(error);
       this.emmitToast(error);
     });
     this.disableSave = false;
@@ -56,7 +56,6 @@ export class AddComponent implements OnInit {
       let fileModel = new FileModel(urlString,  null, event.target.files[0].name, this.todayDate);
       this.newProject.files.push(fileModel);
     }, error => {
-      console.log(error);
       this.emmitToast(error);
     });
     this.disableSave = false;
@@ -82,7 +81,8 @@ export class AddComponent implements OnInit {
    * On cancel button click navigate back to home page
    */
   cancel() {
-    this.router.navigate(['./']);
+    this.router.navigate(['./']).then(value => {
+    });
   }
 
   /**
@@ -96,7 +96,6 @@ export class AddComponent implements OnInit {
    * If API returns error or successful response emit response to toastMessage service
    */
   emmitToast(response: object) {
-    console.log(response);
     this.toastService.toastMessage.emit(response);
   }
 

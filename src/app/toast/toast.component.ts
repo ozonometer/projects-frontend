@@ -27,7 +27,6 @@ export class ToastComponent implements OnInit {
       } else {
         if (responseObject.error) {
           for (let error of responseObject.error.errors) {
-            console.log(error.defaultMessage);
             this.errors.push(error.defaultMessage);
           }
         } else if (responseObject.error) {
@@ -35,6 +34,13 @@ export class ToastComponent implements OnInit {
         } else {
           this.errors.push('Backend error, please retry');
         }
+      }
+    });
+
+    this.toastService.clearMessages.subscribe(value => {
+      if (value) {
+        this.success = [];
+        this.errors = [];
       }
     });
   }
