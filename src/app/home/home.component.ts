@@ -7,7 +7,7 @@ import {ToastService} from '../service/toast.service';
   export class HomeComponent {
     disableButton = true;
     constructor(private toastService: ToastService) {
-      this.toastService.clearMessages.emit(true);
+      this.toastService.clearToastMessages();
       setTimeout(() => {
         this.disableButton = false;
       }, 2000);

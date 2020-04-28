@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpService } from '../service/http.service';
-import { ImageModel } from '../model/ImageModel';
-import { DatePipe } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {HttpService} from '../service/http.service';
+import {ImageModel} from '../model/ImageModel';
+import {DatePipe} from '@angular/common';
 import {ProjectDescription} from '../model/ProjectDescription';
 import {ToastService} from '../service/toast.service';
 import {FileModel} from '../model/FileModel';
 import {ProjectModel} from '../model/ProjectModel';
+import {ToastWrapper} from '../model/ToastWrapper';
+import {ToastType} from '../model/ToastType';
 
 
 @Component({
@@ -23,7 +25,7 @@ export class AddComponent implements OnInit {
 
   constructor(private router: Router, private httpService: HttpService, private datePipe: DatePipe, private toastService: ToastService) {
     this.todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    this.toastService.clearMessages.emit(true);
+    this.toastService.clearToastMessages();
   }
 
   ngOnInit(): void {
@@ -40,8 +42,9 @@ export class AddComponent implements OnInit {
     url.then(urlString => {
       let imageModel = new ImageModel(urlString,  null, event.target.files[0].name, this.todayDate);
       this.newProject.images.push(imageModel);
+      this.toastService.emmitToast(new ToastWrapper(ToastType.INFO, {message: 'Image Uploaded'}));
     }, error => {
-      this.emmitToast(error);
+      this.toastService.emmitToast(new ToastWrapper(ToastType.ERROR, error));
     });
     this.disableSave = false;
   }
@@ -55,8 +58,9 @@ export class AddComponent implements OnInit {
     response.then(urlString => {
       let fileModel = new FileModel(urlString,  null, event.target.files[0].name, this.todayDate);
       this.newProject.files.push(fileModel);
+      this.toastService.emmitToast(new ToastWrapper(ToastType.INFO, {message: 'File Uploaded'}));
     }, error => {
-      this.emmitToast(error);
+      this.toastService.emmitToast(new ToastWrapper(ToastType.ERROR, error));
     });
     this.disableSave = false;
   }
@@ -68,10 +72,10 @@ export class AddComponent implements OnInit {
     this.disableSave = true;
     this.newProject.projectDescription = new ProjectDescription(this.newProject.text, this.todayDate);
     this.httpService.postNewProject(this.newProject).then( project => {
-      this.emmitToast(project);
+      this.toastService.emmitToast(new ToastWrapper(ToastType.SUCCESS, project));
       this.disableSave = false;
       }, error => {
-      this.emmitToast(error);
+      this.toastService.emmitToast(new ToastWrapper(ToastType.ERROR, error));
       this.disableSave = false;
       }
     );
@@ -92,11 +96,5 @@ export class AddComponent implements OnInit {
     return await this.httpService.uploadMultipartFile('/upload/' + type, file, type);
   }
 
-  /**
-   * If API returns error or successful response emit response to toastMessage service
-   */
-  emmitToast(response: object) {
-    this.toastService.toastMessage.emit(response);
-  }
 
 }

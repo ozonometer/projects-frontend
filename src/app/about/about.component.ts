@@ -8,7 +8,7 @@ import {ToastService} from '../service/toast.service';
 export class AboutComponent implements OnInit {
 
   constructor(private toastService: ToastService) {
-    this.toastService.clearMessages.emit(true);
+    this.toastService.clearToastMessages();
   }
 
   ngOnInit(): void {

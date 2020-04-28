@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ToastService} from '../service/toast.service';
 import {Router} from '@angular/router';
+import {ToastType} from '../model/ToastType';
 
 @Component({
   selector: 'app-toast',
@@ -11,29 +12,36 @@ export class ToastComponent implements OnInit {
 
   errors = [];
   success = [];
+  infos = [];
 
   /**
-   * Constructor captures error/success event and adds error to errors/success array to display UI message
+   * Constructor subscribes to toastService to receive type of ERROR, SUCCESS and INFO messages
+   * and subscribes to clear all message Event Emitter
    */
   constructor(private toastService: ToastService, private router: Router) {
 
-    this.toastService.toastMessage.subscribe((responseObject) => {
-      if (responseObject.id) {
-        if (responseObject.created !== null && responseObject.created === responseObject.updated) {
-          this.displaySuccessAndGoHome('Created');
-        } else if (responseObject.updated !== null && responseObject.created !== responseObject.updated) {
-          this.displaySuccessAndGoHome('Updated');
-        }
-      } else {
-        if (responseObject.error) {
-          for (let error of responseObject.error.errors) {
+    this.toastService.toastMessage.subscribe(toast => {
+      if (toast.type === ToastType.ERROR) {
+        if (toast.response.error) {
+          for (let error of toast.response.error.errors) {
             this.errors.push(error.defaultMessage);
           }
-        } else if (responseObject.error) {
-          this.errors.push(responseObject.error.message);
+        } else if (toast.response.error) {
+          this.errors.push(toast.error.message);
         } else {
           this.errors.push('Backend error, please retry');
         }
+      } else if (toast.type === ToastType.SUCCESS) {
+        if (toast.response.id) {
+          if (toast.response.created !== null && toast.response.created === toast.response.updated) {
+            this.displaySuccessAndGoHome('Created');
+          } else if (toast.response.updated !== null && toast.response.created !== toast.response.updated) {
+            this.displaySuccessAndGoHome('Updated');
+          }
+        }
+      } else if (toast.type === ToastType.INFO) {
+        this.errors = [];
+        this.infos.push(toast.response.message);
       }
     });
 
@@ -43,15 +51,16 @@ export class ToastComponent implements OnInit {
         this.errors = [];
       }
     });
+
   }
   ngOnInit(): void {
   }
 
   /**
-   * Removes (deletes) error from errors message when x button clicked on error message in UI
+   * Removes (deletes) error/success/info element from errors/success/infos array when x button clicked on toast message in UI
    */
-  closeToast(index) {
-    this.errors.splice(this.errors.indexOf(index), 1);
+  closeToast(array, index) {
+    this[array].splice(this[array].indexOf(index), 1);
   }
 
   /**
@@ -63,6 +72,7 @@ export class ToastComponent implements OnInit {
       this.router.navigate(['/']).then( complete => {
         this.success = [];
         this.errors = [];
+        this.infos = [];
       });
     }, 3000);
   }
