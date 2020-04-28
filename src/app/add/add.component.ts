@@ -93,7 +93,7 @@ export class AddComponent implements OnInit {
   }
 
   /**
-   * If API returns error or stressful response emit response to toastMessage service
+   * If API returns error or successful response emit response to toastMessage service
    */
   emmitToast(response: object) {
     console.log(response);
