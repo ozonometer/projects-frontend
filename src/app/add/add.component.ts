@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../service/http.service';
-import { ImageModel } from '../class/ImageModel';
+import { ImageModel } from '../model/ImageModel';
 import { DatePipe } from '@angular/common';
-import {ProjectDescription} from '../class/ProjectDescription';
+import {ProjectDescription} from '../model/ProjectDescription';
 import {ToastService} from '../service/toast.service';
-import {FileModel} from '../class/FileModel';
-import {ProjectModel} from '../class/ProjectModel';
+import {FileModel} from '../model/FileModel';
+import {ProjectModel} from '../model/ProjectModel';
 
 
 @Component({

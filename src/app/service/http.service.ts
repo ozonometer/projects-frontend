@@ -3,8 +3,8 @@ import {HttpClient, HttpEventType} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
-import {ImageResponse} from '../class/ImageResponse';
-import {ProjectModel} from '../class/ProjectModel';
+import {ImageResponse} from '../model/ImageResponse';
+import {ProjectModel} from '../model/ProjectModel';
 
 @Injectable( {providedIn: 'root'})
 export class HttpService {
