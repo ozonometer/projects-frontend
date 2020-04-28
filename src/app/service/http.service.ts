@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {ImageResponse} from '../class/ImageResponse';
+import {ProjectModel} from '../class/ProjectModel';
 
 @Injectable( {providedIn: 'root'})
 export class HttpService {
@@ -37,9 +38,9 @@ export class HttpService {
   /**
    * POST to upload image or file to google storage and uses promise instead of observable to return object
    */
-  async uploadMultipartFile(path: string, file: File): Promise<string> {
+  async uploadMultipartFile(path: string, file: File, type: string): Promise<string> {
     const fd = new FormData();
-    fd.append('image', file, file.name);
+    fd.append(type, file, file.name);
     return await this.http.post(environment.url + path, fd)
       .pipe(map(res => res as ImageResponse))
       .toPromise().then(data => {
@@ -50,7 +51,9 @@ export class HttpService {
   /**
    * POST to create new project
    */
-  postNewProject(object: {}): Observable<{}> {
-    return this.http.post(environment.url + '/add/new', object);
+  async postNewProject(project: ProjectModel){
+    return await this.http.post(environment.url + '/add/new', project).pipe(map( res => res as ProjectModel)).toPromise().then( data => {
+      return data;
+    });
   }
 }

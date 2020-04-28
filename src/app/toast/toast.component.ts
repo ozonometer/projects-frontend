@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ToastService} from '../service/toast.service';
-import {HttpResponseObject} from '../class/HttpResponseObject';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-toast',
@@ -10,26 +10,54 @@ import {HttpResponseObject} from '../class/HttpResponseObject';
 export class ToastComponent implements OnInit {
 
   errors = [];
+  success = [];
 
   /**
-   * Constructor captures error event and adds error to errors array to display UI message
+   * Constructor captures error/success event and adds error to errors/success array to display UI message
    */
-  constructor(private toastService: ToastService) {
-    this.toastService.toastMessage.subscribe((responseObject: HttpResponseObject) => {
-      if (responseObject.error.errors) {
-        for (let error of responseObject.error.errors) {
-          console.log(error);
-          this.errors.push(error.field + ' ' + error.defaultMessage);
+  constructor(private toastService: ToastService, private router: Router) {
+
+    this.toastService.toastMessage.subscribe((responseObject) => {
+      if (responseObject.id) {
+        if (responseObject.created !== null && responseObject.created === responseObject.updated) {
+          this.displaySuccessAndGoHome('Created');
+        } else if (responseObject.updated !== null && responseObject.created !== responseObject.updated) {
+          this.displaySuccessAndGoHome('Updated');
         }
       } else {
-        this.errors.push('Back end error, please retry');
+        if (responseObject.error) {
+          for (let error of responseObject.error.errors) {
+            console.log(error.defaultMessage);
+            this.errors.push(error.defaultMessage);
+          }
+        } else if (responseObject.error) {
+          this.errors.push(responseObject.error.message);
+        } else {
+          this.errors.push('Backend error, please retry');
+        }
       }
     });
   }
   ngOnInit(): void {
   }
 
+  /**
+   * Removes (deletes) error from errors message when x button clicked on error message in UI
+   */
   closeToast(index) {
     this.errors.splice(this.errors.indexOf(index), 1);
+  }
+
+  /**
+   * Adds success message to success array to display message and then after delay redirects user back to home page
+   */
+  displaySuccessAndGoHome(crateUpdate: string) {
+    this.success.push(crateUpdate + ' successfully');
+    setTimeout(() => {
+      this.router.navigate(['/']).then( complete => {
+        this.success = [];
+        this.errors = [];
+      });
+    }, 3000);
   }
 }
