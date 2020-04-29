@@ -56,4 +56,14 @@ export class HttpService {
       return data;
     });
   }
+
+  /**
+   * GET list of all projects
+   */
+  async getAllProject(){
+    return await this.http.get(environment.url + '/projects')
+      .pipe(map( res => res as Array<ProjectModel>)).toPromise().then( data => {
+        return data;
+      });
+  }
 }

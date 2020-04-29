@@ -1,20 +1,27 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ToastService} from '../service/toast.service';
+import {ProjectModel} from '../model/ProjectModel';
+import {HttpService} from '../service/http.service';
+import {ToastWrapper} from '../model/ToastWrapper';
+import {ToastType} from '../model/ToastType';
 
-@Component({selector: 'app-home',
-  templateUrl: './home.component.html'
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
   })
-  export class HomeComponent {
-    disableButton = true;
-    constructor(private toastService: ToastService) {
+  export class HomeComponent implements OnInit {
+    projects: Array<ProjectModel>;
+
+    constructor(private toastService: ToastService, private httpService: HttpService) {
       this.toastService.clearToastMessages();
-      setTimeout(() => {
-        this.disableButton = false;
-      }, 2000);
+      httpService.getAllProject().then( response => {
+        this.projects = response;
+      }, error => {
+        this.toastService.emmitToast(new ToastWrapper(ToastType.ERROR, error));
+      });
     }
 
-    onButtonClick(event: Event) {
-      console.log(event);
-    }
-
+  ngOnInit(): void {
+  }
 }

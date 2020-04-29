@@ -2,11 +2,11 @@
  * ProjectDescription class mimics backend Entity for API communication
  */
 export class ProjectDescription {
-  private id: number;
-  private projectId: number;
-  private text: string;
-  private created: Date;
-  private updated: Date;
+  public id: number;
+  public projectId: number;
+  public text: string;
+  public created: Date;
+  public updated: Date;
 
   constructor(desc: string, date: Date) {
     this.text = desc;
