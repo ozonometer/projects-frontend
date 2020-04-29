@@ -3,22 +3,22 @@
   <div class="row p-3" *ngIf="isEven">
     <div class="col-sm-6">
       <div class="card">
-        <img src="{{projects[i].images[0].url}}" class="card-img-top">
+        <img src="{{projects[i].images[0].url}}" class="card-img-top" [routerLink]="['/project', projects[i].id]">
         <div class="card-body">
           <h5 class="card-title">{{project.name}}</h5>
           <p class="card-text">{{project.text}}</p>
-          <a href="#" class="btn btn-link">Details</a>
+          <a class="btn btn-light" [routerLink]="['/project', projects[i].id]">Details</a>
         </div>
       </div>
     </div>
 
     <div class="col-sm-6" *ngIf="projects[i+1]">
       <div class="card">
-        <img src="{{projects[i+1].images[0].url}}" class="card-img-top">
+        <img src="{{projects[i+1].images[0].url}}" class="card-img-top" [routerLink]="['/project', projects[i+1].id]">
         <div class="card-body">
           <h5 class="card-title">{{projects[i+1].name}}</h5>
           <p class="card-text">{{projects[i+1].text}}</p>
-          <a href="#" class="btn btn-link">Details</a>
+          <a class="btn btn-light" [routerLink]="['/project', projects[i].id]">Details</a>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@ import { AboutComponent } from './about/about.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent},
-  { path: 'project', component: ProjectComponent},
+  { path: 'project/:id', component: ProjectComponent},
   { path: 'add', component: AddComponent},
   { path: 'about', component: AboutComponent}
 ];
