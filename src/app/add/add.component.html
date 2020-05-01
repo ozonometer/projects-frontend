@@ -31,7 +31,7 @@
         <li class="list-group-item" *ngFor="let image of newProject.images;">
           <img src="{{image.url}}" class="img-thumbnail">
           <div>{{image.imageName}}</div>
-          <input type="text" [(ngModel)]="image.imageDescription" maxlength="100" placeholder="Image Description" aria-label="Project Name">
+          <input type="text" [(ngModel)]="image.imageDescription" maxlength="100" placeholder="Image Description" aria-label="Image Description">
         </li>
       </ul>
     </div>

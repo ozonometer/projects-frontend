@@ -4,6 +4,8 @@ import {ProjectModel} from '../model/ProjectModel';
 import {HttpService} from '../service/http.service';
 import {ToastWrapper} from '../model/ToastWrapper';
 import {ToastType} from '../model/ToastType';
+import {DataService} from '../service/data.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +15,8 @@ import {ToastType} from '../model/ToastType';
   export class HomeComponent implements OnInit {
     projects: Array<ProjectModel>;
 
-    constructor(private toastService: ToastService, private httpService: HttpService) {
+    constructor(private toastService: ToastService, private httpService: HttpService, private dataService: DataService,
+                private router: Router) {
       this.toastService.clearToastMessages();
       httpService.getAllProject().then( response => {
         this.projects = response;
@@ -23,5 +26,13 @@ import {ToastType} from '../model/ToastType';
     }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * When project elected in home page emit project to dataService and navigate to project (project detail) module
+   */
+  openProject(project: ProjectModel) {
+      this.dataService.emitProject(project);
+      this.router.navigate(['/project', project.id]).then( c => {});
   }
 }

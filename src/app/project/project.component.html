@@ -1,1 +1,6 @@
 <p>project works!</p>
+<div *ngIf="project">
+  <input type="text" [(ngModel)]="project.id" maxlength="100" placeholder="Project id" aria-label="Project id">
+  <p>{{project.name}}</p>
+
+</div>

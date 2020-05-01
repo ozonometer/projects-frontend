@@ -12,6 +12,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { AddComponent } from './add/add.component';
 import { ToastComponent } from './toast/toast.component';
 import {ToastService} from './service/toast.service';
+import {DataService} from './service/data.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import {ToastService} from './service/toast.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [ToastService],
+  providers: [ToastService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -52,7 +52,8 @@ export class HttpService {
    * POST to create new project
    */
   async postNewProject(project: ProjectModel){
-    return await this.http.post(environment.url + '/add/new', project).pipe(map( res => res as ProjectModel)).toPromise().then( data => {
+    return await this.http.post(environment.url + '/project/new', project)
+      .pipe(map( res => res as ProjectModel)).toPromise().then( data => {
       return data;
     });
   }
@@ -63,6 +64,16 @@ export class HttpService {
   async getAllProject(){
     return await this.http.get(environment.url + '/projects')
       .pipe(map( res => res as Array<ProjectModel>)).toPromise().then( data => {
+        return data;
+      });
+  }
+
+  /**
+   * GET project by id
+   */
+  async getProject(id: number){
+    return await this.http.get(environment.url + '/project/' + id)
+      .pipe(map( res => res as ProjectModel)).toPromise().then( data => {
         return data;
       });
   }
